@@ -3,14 +3,14 @@
 <head>
   <title>Sample Captioned Video</title>
   <script src="playr.js"></script>
-  <link rel="stylesheet" href="playr.css"></head>
+  <link rel="stylesheet" href="playr.css">
 </head>
 <body>
 <video 
   id="myvideo" 
-  controls="controls" 
-  class="playr_video" 
-  width="640" height="480" 
+  controls="controls"
+  class="playr_video"
+  width="640" height="480"
   poster="http://media.w3.org/2010/05/sintel/poster.png" 
 >
 <!-- 
@@ -23,7 +23,11 @@
 <!-- 
   This is the subtitles track
 -->
-<track kind="subtitles" lang="en" srclang="en" label="English" src='sintel.vtt'/>
+<!--
+label="Deutsch subtitles" kind="subtitles" srclang="de"
+         src="elephants-dream-subtitles-de.vtt">
+-->
+<track kind="subtitles" label="English" srclang="en" src='sintel.vtt'/>
 </video>
 </body>
 </html>
