@@ -2,16 +2,17 @@
 <html>
 <head>
   <title>Sample Captioned Video</title>
-  <script src="playr.js"></script>
-  <link rel="stylesheet" href="playr.css">
+  <script src="js/playr.js"></script>
+  <link rel="stylesheet" href="css/playr.css">
 </head>
 <body>
+  
 <video 
   id="myvideo" 
   controls="controls"
   class="playr_video"
   width="640" height="480"
-  poster="http://media.w3.org/2010/05/sintel/poster.png" 
+  poster="http://media.w3.org/2010/05/sintel/poster.png"
 >
 <!-- 
   These are the three sources. This should cover most of our 
@@ -24,10 +25,9 @@
   This is the subtitles track
 -->
 <!--
-label="Deutsch subtitles" kind="subtitles" srclang="de"
-         src="elephants-dream-subtitles-de.vtt">
+<label="Deutsch subtitles" kind="subtitles" srclang="de" src="elephants-dream-subtitles-de.vtt">
 -->
-<track kind="subtitles" label="English" srclang="en" src='sintel.vtt'/>
+<track kind="subtitles" label="English" srclang="en" src='vtt/sintel.vtt'/>
 </video>
 </body>
 </html>
