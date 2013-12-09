@@ -226,6 +226,7 @@ that touched the lead to the pages of your manuscript.
 
 ### Optional Cue Settings
 
+Cues can also be styled and moved around
 
 <table>
 <thead>
