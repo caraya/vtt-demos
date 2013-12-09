@@ -226,7 +226,10 @@ that touched the lead to the pages of your manuscript.
 
 ### Optional Cue Settings
 
-Cues can also be styled and moved around
+Cues can also be styled and moved around the screen relative to the borders of the video. The table below summarizes the settings avalable for cues. 
+
+
+#### Vertical Alignment
 
 <table>
 <thead>
@@ -241,36 +244,60 @@ Cues can also be styled and moved around
 <td>vertical</td>
 <td>rl || lr</td>
 <td>Aligns text vertically to the left (lr) or right (rl) (e.g. for Japanese subtitles)</td>
+<td>Example</td>
 </tr>
 <tr id="line-setting">
 <td>line</td>
 <td>[-][0 or more]</td>
 <td>References a particular line number that the cue is to be displayed on. Line numbers are based on the size of the first line of the cue. A negative number counts from the bottom of the frame, positive numbers from the top</td>
+<td>Example</td>
 </tr>
 <tr>
 <td>&#xA0;</td>
 <td>[0-100]%</td>
 <td>Percentage value indicating the position relative to the top of the frame</td>
+<td>Example</td>
 </tr>
 <tr id="position-setting">
 <td>position</td>
 <td>[0-100]%</td>
 <td>Percentage value indicating the position relative to the edge of the frame where the text begins (e.g. the left edge in English)</td>
+<td>Example</td>
 </tr>
 <tr id="size-setting">
 <td>size</td>
 <td>[0-100]%</td>
 <td>Percentage value indicating the size of the cue box. The value is given as a percentage of the width of the frame</td>
+<td>Example</td>
 </tr>
 <tr id="align-setting">
 <td>align</td>
 <td>start || middle || end</td>
 <td>Specifies the alignment of the text within the cue. The keywords are relative to the text direction</td>
+<td>Example</td>
 </tr>
 </tbody>
 </table>
 
 <p class="note">Note: if no cue settings are set, the positioning default to the middle, at the bottom of the frame.</p>
+
+#### Speaker Semantics
+
+You can use a combination of cue positioning and specific markup on individual cues to further emphazise who is speaking in a given caption or subtitle where appropriate. 
+
+<pre><code>WEBVTT - Sintel Caption File With Speaker Semantics
+
+Sage
+00:00:12.000 --> 00:00:15.000 A:middle T:10%
+&lt;v.gatekeeper&gt;What brings you to the land
+of the gatekeepers?
+
+Searching
+00:00:18.500 --> 00:00:20.500 A:middle T:80%
+&lt;v.sintel&gt;I'm searching for someone.
+</code></pre>
+
+
 
 ### Subtitles Tracks
 
