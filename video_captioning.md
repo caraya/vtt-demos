@@ -58,6 +58,8 @@ th, td {
       <td>
         <ul>
           <li>Documentation hosted at <a href="http://www.html5rocks.com/en/tutorials/track/basics/">HTML5 Rocks</li>
+          <li>Based on Webkit's implementation</li>
+          <li>Any planned changes after blink fork?</li>
         </ul>
       </td>
     </tr>
