@@ -1,3 +1,34 @@
+<!-- MarkdownTOC -->
+- HTML5 video captioning using VTT
+  - Introducing VTT
+  - Browser support
+  - Polyfills and alternatives
+    - Players and Polyfills
+  - Accessibility and ARIA considerations
+  - Different types of VTT tracks and their structures
+    - Captioning Tracks
+    - Optional Cue Settings
+      - Vertical Alignment
+      - Line Placement
+      - Top Alignment
+      - Cue Box Size
+      - Text Align
+    - Cue Payload Tags
+      - Timestamp Tags (Karaoke Style Text)
+      - Speaker Semantics
+    - Subtitles Tracks
+    - Chapter Tracks
+    - Description Tracks
+    - Metadata Tracks
+  - Building the tracks
+  - Getting the captions to work
+    - Building the tracks
+      - Converting SRT to VTT
+      - Validating A VTT File
+    - Adding the tracks to the video
+  - Additional Tutorials
+<!-- /MarkdownTOC -->
+
 # HTML5 video captioning using VTT
 
 The biggest frustration I had the last time I worked with HTML5 video was its lack of support for captions and subtitle tracks. The support is still not uniform but at least we can now be better assured that the video will have some sort of caption. 
@@ -48,8 +79,8 @@ th, td {
         <ul>
           <li><a href="http://ie.microsoft.com/testdrive/Graphics/VideoCaptions/">Test Page</a></li>
           <li><a href="http://html5labs.interoperabilitybridges.com/prototypes/video-captioning/video-captioning/info">Documentation</a></li>
+        </td>
         </ul>
-      </td>
     </tr>
     <tr>
       <td>Google Chrome</td>
@@ -127,9 +158,16 @@ The code below uses plain JavaScript to test if a browser supports  HTML5 video 
     alert('Can Play HTML5 video')
   }
   else {
-    // Display an alert or do something else to accomodate
-    // to the user
-    alert('Your browser does not support HTML5 video')
+    // Append Playr CSS and JS to the head of the page to
+    // provide a fallback
+    var h = document.getElementsByTagName('head')[0];
+    var plink = document.createElement('link');
+    plink.setAttribute('href', 'css/playr.css');
+    plink.setAttribute('media', 'screen');
+    h.appendChild(plink);
+    var pscript = document.createElement('script');
+    pscript.setAttribute('src', 'js/playr.js');
+    h.append('pscript');
   }
 </code></pre>
 
@@ -174,7 +212,7 @@ This is the simplest test for video support; a more elaborate version can includ
 
 </code></pre>
 
-Also note that we're testing for specific audio and video codec combinations. WebM and Ogg support a single combination of video and audio codecs but MP4 supports multiple profiles, not all of which are supported in HTML5 video. See [this article](http://mpeg.chiariglione.org/faq/what-are-different-profiles-supported-mpeg-4-video) for an introduction to the different profiles supported by MPEG4. 
+Also note that we're testing for specific audio and video codec combinations. WebM and Ogg support a single combination of video and audio codecs but MP4 supports multiple profiles, not all of which are supported in HTML5 video. See <http://mpeg.chiariglione.org/faq/what-are-different-profiles-supported-mpeg-4-video> for an introduction to the different profiles supported by MPEG4. 
 
 ### Players and Polyfills
 
@@ -231,55 +269,87 @@ Cues can also be styled and moved around the screen relative to the borders of t
 
 #### Vertical Alignment
 
-<table>
-<thead>
-<tr>
-<th>Setting</th>
-<th>Value(s)</th>
-<th>Function</th>
-</tr>
-</thead>
-<tbody>
-<tr id="vertical-setting">
-<td>vertical</td>
-<td>rl || lr</td>
-<td>Aligns text vertically to the left (lr) or right (rl) (e.g. for Japanese subtitles)</td>
-<td>Example</td>
-</tr>
-<tr id="line-setting">
-<td>line</td>
-<td>[-][0 or more]</td>
-<td>References a particular line number that the cue is to be displayed on. Line numbers are based on the size of the first line of the cue. A negative number counts from the bottom of the frame, positive numbers from the top</td>
-<td>Example</td>
-</tr>
-<tr>
-<td>&#xA0;</td>
-<td>[0-100]%</td>
-<td>Percentage value indicating the position relative to the top of the frame</td>
-<td>Example</td>
-</tr>
-<tr id="position-setting">
-<td>position</td>
-<td>[0-100]%</td>
-<td>Percentage value indicating the position relative to the edge of the frame where the text begins (e.g. the left edge in English)</td>
-<td>Example</td>
-</tr>
-<tr id="size-setting">
-<td>size</td>
-<td>[0-100]%</td>
-<td>Percentage value indicating the size of the cue box. The value is given as a percentage of the width of the frame</td>
-<td>Example</td>
-</tr>
-<tr id="align-setting">
-<td>align</td>
-<td>start || middle || end</td>
-<td>Specifies the alignment of the text within the cue. The keywords are relative to the text direction</td>
-<td>Example</td>
-</tr>
-</tbody>
-</table>
+> Name: vertical
+> Values: <code>rl</code> (right to left) - <code>lr</code> (left to right)
+> What is used for: Vertical text alignment for languages like Japanese that can be read from top to bottom
+> Example: vertical:lr (makes the cue display vertically from left to right)
 
-<p class="note">Note: if no cue settings are set, the positioning default to the middle, at the bottom of the frame.</p>
+#### Line Placement
+
+> Name: line
+> Value [-][0 or larger] (negative or possitive number)
+> What is used for: References a particular line number that the cue is to be displayed on. 
+> * Line numbers are based on the size of the first line of the cue. 
+> * A negative number counts from the bottom of the frame
+> * Positive numbers from the top
+
+#### Top Alignment
+> Name: line
+> value [0-100]%
+> What is used for: Percentage value indicating the position relative to the top of the frame
+> Example
+
+> Name: position
+> Value [0-100]%
+> What is used for: Percentage value indicating the horizontal alignment relative to the edge of the frame where the text begins (e.g. the left edge in English)
+> Example
+
+#### Cue Box Size
+
+> Name: size
+> Value: [0-100]%
+> What it's used for: Indicates the size of the cue box. The value is given as a percentage of the width of the frame
+> Example
+
+#### Text Align
+
+> Name: align
+> Values start|| middle || end
+> What it's used for: Specifies the alignment of the text within the cue. The keywords are relative to the text direction and are the same alignment keywords used in SVG
+> Example
+
+**Note: if no cue settings are set, the positioning default to the middle, at the bottom of the frame.**
+
+### Cue Payload Tags
+
+These are additional tracks that will allow you to customize the appearance of your tracks. ** You cannot use payload tags with chapter tracks**
+
+#### Timestamp Tags (Karaoke Style Text)
+
+Using timestamp tags can build Karaoke Style tracks. You build the track by inserting the correct time stamp where you want the highlighted text to change, subject to the following restrictions:
+
+* The timestamp must be greater that the cue's start timestamp, greater than any previous timestamp in the cue payload, and less than the cue's end timestamp.
+
+<pre><code>VTT - Example Karaoke Style Track
+
+1
+00:16.500 --> 00:18.500
+When the moon &lt;00:17.500&gt;hits your eye
+
+2
+00:00:18.500 --> 00:00:20.500
+Like a &lt;00:19.000&gt;big-a &lt;00:19.500&gt;pizza &lt;00:20.000&gt;pie
+
+3
+00:00:20.500 --> 00:00:21.500
+That's &lt;00:00:21.000&gt;amore</code></pre>
+
+In the example above:
+
+* The active text is the text between the timestamp and the next timestamp or to the end of the payload if there is not another timestamp in the payload. 
+* Any text before the active text in the payload is previous text . 
+* Any text beyond the active text is future text. We can use the previous and future tracks to create the Kraoke experience.
+
+And a possible CSS rule to style the content looks like this. 
+
+<pre><code>
+::cue:past) { 
+  color:yellow 
+}
+
+::cue:future {
+  text-shadow: black 0 0 1px;
+}</code></pre>
 
 #### Speaker Semantics
 
@@ -297,7 +367,17 @@ Searching
 &lt;v.sintel&gt;I'm searching for someone.
 </code></pre>
 
+We can style the speaker semantic classes using CSS. For example we can add a different, something like the example code below:
 
+<pre><code>video::cue(v.gatekeeper) { 
+  color:lime;
+}
+
+video::cue(v.sintel) { 
+  color: #ff00ff; 
+}</code></pre>
+
+###
 
 ### Subtitles Tracks
 
@@ -346,7 +426,10 @@ Introduction to HTML5</code></pre>
 
 ### Description Tracks
 
+Description tracks are used primarily as an assistive technology helper, these tracks will be readby assistive technology devices. 
 
+
+****
 
 ### Metadata Tracks
 
@@ -362,8 +445,6 @@ According to the VTT specification (<http://dev.w3.org/html5/webvtt/#dfn-webvtt-
 We can build our caption file using the text above as an example, and this is the most common way to caption a video for accessibility.
 
 We can also build multiple caption tracks as well as a variety of other tracks. Most polyfills will support a subset of the full VTT specification, Playr, the polyfill I've selected for these examples, supports both captions and chapter tracks. 
-
-### Inline Styles and Voices
 
 
 ## Getting the captions to work
