@@ -7,15 +7,6 @@
   - Accessibility and ARIA considerations
   - Different types of VTT tracks and their structures
     - Captioning Tracks
-    - Optional Cue Settings
-      - Vertical Alignment
-      - Line Placement
-      - Top Alignment
-      - Cue Box Size
-      - Text Align
-    - Cue Payload Tags
-      - Timestamp Tags (Karaoke Style Text)
-      - Speaker Semantics
     - Subtitles Tracks
     - Chapter Tracks
     - Description Tracks
@@ -25,6 +16,16 @@
     - Building the tracks
       - Converting SRT to VTT
       - Validating A VTT File
+      - Optional Cue Settings
+        - Vertical Alignment
+        - Line Placement
+        - Top Alignment
+        - Cue Box Size
+        - Text Align
+      - Cue Payload Tags
+        - Timestamp Tags (Karaoke Style Text)
+        - Speaker Semantics
+    - Addtional Style tags
     - Adding the tracks to the video
   - Additional Tutorials
 <!-- /MarkdownTOC -->
@@ -262,123 +263,6 @@ that touched the lead to the pages of your manuscript.
 4. Optional Cue Settings separated from the time by no more than 2 spaces
 5. The text for the cue
 
-### Optional Cue Settings
-
-Cues can also be styled and moved around the screen relative to the borders of the video. The table below summarizes the settings avalable for cues. 
-
-
-#### Vertical Alignment
-
-> Name: vertical
-> Values: <code>rl</code> (right to left) - <code>lr</code> (left to right)
-> What is used for: Vertical text alignment for languages like Japanese that can be read from top to bottom
-> Example: vertical:lr (makes the cue display vertically from left to right)
-
-#### Line Placement
-
-> Name: line
-> Value [-][0 or larger] (negative or possitive number)
-> What is used for: References a particular line number that the cue is to be displayed on. 
-> * Line numbers are based on the size of the first line of the cue. 
-> * A negative number counts from the bottom of the frame
-> * Positive numbers from the top
-
-#### Top Alignment
-> Name: line
-> value [0-100]%
-> What is used for: Percentage value indicating the position relative to the top of the frame
-> Example
-
-> Name: position
-> Value [0-100]%
-> What is used for: Percentage value indicating the horizontal alignment relative to the edge of the frame where the text begins (e.g. the left edge in English)
-> Example
-
-#### Cue Box Size
-
-> Name: size
-> Value: [0-100]%
-> What it's used for: Indicates the size of the cue box. The value is given as a percentage of the width of the frame
-> Example
-
-#### Text Align
-
-> Name: align
-> Values start|| middle || end
-> What it's used for: Specifies the alignment of the text within the cue. The keywords are relative to the text direction and are the same alignment keywords used in SVG
-> Example
-
-**Note: if no cue settings are set, the positioning default to the middle, at the bottom of the frame.**
-
-### Cue Payload Tags
-
-These are additional tracks that will allow you to customize the appearance of your tracks. ** You cannot use payload tags with chapter tracks**
-
-#### Timestamp Tags (Karaoke Style Text)
-
-Using timestamp tags can build Karaoke Style tracks. You build the track by inserting the correct time stamp where you want the highlighted text to change, subject to the following restrictions:
-
-* The timestamp must be greater that the cue's start timestamp, greater than any previous timestamp in the cue payload, and less than the cue's end timestamp.
-
-<pre><code>VTT - Example Karaoke Style Track
-
-1
-00:16.500 --> 00:18.500
-When the moon &lt;00:17.500&gt;hits your eye
-
-2
-00:00:18.500 --> 00:00:20.500
-Like a &lt;00:19.000&gt;big-a &lt;00:19.500&gt;pizza &lt;00:20.000&gt;pie
-
-3
-00:00:20.500 --> 00:00:21.500
-That's &lt;00:00:21.000&gt;amore</code></pre>
-
-In the example above:
-
-* The active text is the text between the timestamp and the next timestamp or to the end of the payload if there is not another timestamp in the payload. 
-* Any text before the active text in the payload is previous text . 
-* Any text beyond the active text is future text. We can use the previous and future tracks to create the Kraoke experience.
-
-And a possible CSS rule to style the content looks like this. 
-
-<pre><code>
-::cue:past) { 
-  color:yellow 
-}
-
-::cue:future {
-  text-shadow: black 0 0 1px;
-}</code></pre>
-
-#### Speaker Semantics
-
-You can use a combination of cue positioning and specific markup on individual cues to further emphazise who is speaking in a given caption or subtitle where appropriate. 
-
-<pre><code>WEBVTT - Sintel Caption File With Speaker Semantics
-
-Sage
-00:00:12.000 --> 00:00:15.000 A:middle T:10%
-&lt;v.gatekeeper&gt;What brings you to the land
-of the gatekeepers?
-
-Searching
-00:00:18.500 --> 00:00:20.500 A:middle T:80%
-&lt;v.sintel&gt;I'm searching for someone.
-</code></pre>
-
-We can style the speaker semantic classes using CSS. For example we can add a different, something like the example code below:
-
-<pre><code>video::cue(v.gatekeeper) { 
-  color:lime;
-}
-
-video::cue(v.sintel) { 
-  color: #ff00ff; 
-}</code></pre>
-
-###
-
 ### Subtitles Tracks
 
 Subtitle Tracks are similar to Caption Tracks but are not meant to address accessibility issues as Captions are. Subtitle tracks are used primarily to convey the dialogue in a language other than the one being spoken in the video. Take, for example a Japanese movie where the subtitles translate the content to English. 
@@ -487,6 +371,190 @@ Save the file with a .vtt extension and link to it from a <code>&lt;track&gt;</c
 #### Validating A VTT File
 
 ** More to be written once I get to play with http://quuz.org/webvtt/ some more*
+
+#### Optional Cue Settings
+
+Cues can also be styled and moved around the screen relative to the borders of the video. The table below summarizes the settings avalable for cues. 
+
+
+##### Vertical Alignment
+
+> Name: vertical
+
+> Values: <code>rl</code> (right to left) - <code>lr</code> (left to right)
+
+> What is used for: Vertical text alignment for languages like Japanese that can be read from top to bottom
+
+> Example: vertical:lr (makes the cue display vertically from left to right)
+
+##### Line Placement
+
+> Name: line
+
+> Value [-][0 or larger] (negative or possitive number)
+
+> What is used for: References a particular line number that the cue is to be displayed on. 
+
+> * Line numbers are based on the size of the first line of the cue. 
+
+> * A negative number counts from the bottom of the frame
+
+> * Positive numbers from the top
+
+##### Top Alignment
+
+> Name: line
+
+> value [0-100]%
+
+> What is used for: Percentage value indicating the position relative to the top of the frame
+
+> Example
+
+
+> Name: position
+
+> Value [0-100]%
+
+> What is used for: Percentage value indicating the horizontal alignment relative to the edge of the frame where the text begins (e.g. the left edge in English)
+
+> Example
+
+##### Cue Box Size
+
+> Name: size
+
+> Value: [0-100]%
+
+> What it's used for: Indicates the size of the cue box. The value is given as a percentage of the width of the frame
+
+> Example
+
+##### Text Align
+
+> Name: align
+
+> Values start|| middle || end
+
+> What it's used for: Specifies the alignment of the text within the cue. The keywords are relative to the text direction and are the same alignment keywords used in SVG
+
+> Example
+
+**Note: if no cue settings are set, the positioning default to the middle, at the bottom of the frame.**
+
+#### Cue Payload Tags
+
+These are additional tracks that will allow you to customize the appearance of your tracks. ** You cannot use payload tags with chapter tracks**
+
+##### Timestamp Tags (Karaoke Style Text)
+
+Using timestamp tags can build Karaoke Style tracks. You build the track by inserting the correct time stamp where you want the highlighted text to change, subject to the following restrictions:
+
+* The timestamp must be greater that the cue's start timestamp, greater than any previous timestamp in the cue payload, and less than the cue's end timestamp.
+
+<pre><code>VTT - Example Karaoke Style Track
+
+1
+00:16.500 --> 00:18.500
+When the moon &lt;00:17.500&gt;hits your eye
+
+2
+00:00:18.500 --> 00:00:20.500
+Like a &lt;00:19.000&gt;big-a &lt;00:19.500&gt;pizza &lt;00:20.000&gt;pie
+
+3
+00:00:20.500 --> 00:00:21.500
+That's &lt;00:00:21.000&gt;amore</code></pre>
+
+In the example above:
+
+* The active text is the text between the timestamp and the next timestamp or to the end of the payload if there is not another timestamp in the payload. 
+* Any text before the active text in the payload is previous text . 
+* Any text beyond the active text is future text. We can use the previous and future tracks to create the Kraoke experience.
+
+And a possible CSS rule to style the content looks like this. 
+
+<pre><code>
+::cue:past { 
+  color:yellow 
+}
+
+::cue:future {
+  text-shadow: black 0 0 1px;
+}</code></pre>
+
+##### Speaker Semantics
+
+You can use a combination of cue positioning and specific markup on individual cues to further emphazise who is speaking in a given caption or subtitle where appropriate. 
+
+<pre><code>WEBVTT - Sintel Caption File With Speaker Semantics
+
+Sage
+00:00:12.000 --> 00:00:15.000 A:middle T:10%
+&lt;v.gatekeeper&gt;What brings you to the land
+of the gatekeepers?
+
+Searching
+00:00:18.500 --> 00:00:20.500 A:middle T:80%
+&lt;v.sintel&gt;I'm searching for someone.
+</code></pre>
+
+We can style the speaker semantic classes using CSS. For example we can add a different, something like the example code below:
+
+<pre><code>video::cue(v.gatekeeper) { 
+  color:lime;
+}
+
+video::cue(v.sintel) { 
+  color: #ff00ff; 
+}</code></pre>
+
+### Addtional Style tags
+
+The following tags require opening and closing tags.
+
+**Class tag (&lt;c&gt;&lt;/c&gt;)**
+
+Style the contained text using a CSS class.
+
+<pre><code>Cue 14 - Class tag example
+&lt;c.classname&gt;text&lt;/c&gt;</code></pre>
+
+
+**Italics tag (&lt;i&gt;&lt;/i&gt;)**
+
+Italicize the contained text.
+
+<pre><code>Example 15 - Italics tag
+&lt;i&gt;text&lt;/i&gt;</code></pre>
+
+**Bold tag (&lt;b&gt;&lt;/b&gt;)
+
+Bold the contained text.
+
+<pre><code>Example 16 - Bold tag
+&lt;b&gt;text&lt;/b&gt;
+
+**Underline tag (&lt;u&gt;&lt;/u&gt;)**
+
+Underline the contained text.
+
+<pre><code>Example 17 - Underline tag
+&lt;u&gt;text&lt;/u&gt;</code></pre>
+
+**Ruby tag (&lt;ruby&gt;&lt;/ruby&gt;)**
+**Ruby text tag (&lt;rt&gt;&lt;/rt&gt;)**
+
+Used together to display ruby characters (i.e. small annotative characters above other characters). Ruby annotations are primarily used in languages with logographic alphabets (Japanese, Chinese, Korean) where a single character may represent a complete word and where the meaning of the character may not be familiar to the reader. 
+
+> Ruby characters are small, annotative glosses that can be placed above or to the right of a Chinese character when writing languages with logographic characters such as Chinese or Japanese to show the pronunciation. Typically called just ruby or rubi, such annotations are used as pronunciation guides for characters that are likely to be unfamiliar to the reader.
+
+> From [Wikipedia](http://en.wikipedia.org/wiki/Ruby_character)
+
+
+<pre><code>Example 18 - Ruby tag and Ruby text tag
+&lt;ruby&gt;WWW&lt;rt&gt;World Wide Web&lt;/rt&gt;oui&lt;rt&gt;yes&lt;/rt&gt;&lt;/ruby&gt;</code></pre>
+
 
 ### Adding the tracks to the video
 
