@@ -655,14 +655,21 @@ The final example contains multiple caption tracks, subtitles in Spanish and des
 &lt;source src="http://media.w3.org/2010/05/sintel/trailer.webm" type="video/webm" /&gt;
 &lt;source src="http://media.w3.org/2010/05/sintel/trailer.ogv" type="video/ogg" /&gt;  
 &lt;!-- 
-  This is the captions track
+  These are the captions track
 --&gt;
 &lt;track kind="captions" lang="en" srclang="en" label="English" src="sintel-en.vtt" default /&gt;
 &lt;track kind="captions" lang="es" srclang="es" label="Spanish" src="sintel-es.vtt" /&gt;
 &lt;track kind="captions" lang="de" srclang="de" label="Spanish" src="sintel-de.vtt" /&gt;&lt;/video&gt;
+&lt;!-- 
+  This is the subtitles track
+--&gt;
+&lt;track kind="subtitles" lang="es" srclang="es" label="Subtitulos en Espa&ntilde;ol" src="sintel-es-subtitles.vtt" /&gt;
+&lt;!-- 
+  These are the captions track
+--&gt;
+&lt;track kind="captions" lang="en" srclang="en" label="English" src="sintel-en.vtt" default /&gt;
 &lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
+&lt;/html&gt;</code></pre>
 
 ## Additional Tutorials
 
@@ -673,8 +680,3 @@ The final example contains multiple caption tracks, subtitles in Spanish and des
 * <http://demosthenes.info/blog/580/Make-Online-Video-Accessible-And-Searchable-With-WebVTT>
 * <http://www.accessiq.org/news/features/2013/03/webvtt-and-captioning-on-the-web>
 
-<!-- 
-Where this was written:
-
-@ home while on 'after FireEye' recovery, Red Rock coffee along with unhealthy ammounts of latte, white mocha and red eye coffee
--->
