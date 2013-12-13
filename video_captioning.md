@@ -25,11 +25,10 @@
       - Cue Payload Tags
         - Timestamp Tags (Karaoke Style Text)
         - Speaker Semantics
-    - Addtional Style tags
+        - Addtional Style tags
     - Adding the tracks to the video
   - Additional Tutorials
 <!-- /MarkdownTOC -->
-
 # HTML5 video captioning using VTT
 
 The biggest frustration I had the last time I worked with HTML5 video was its lack of support for captions and subtitle tracks. The support is still not uniform but at least we can now be better assured that the video will have some sort of caption. 
@@ -310,10 +309,17 @@ Introduction to HTML5</code></pre>
 
 ### Description Tracks
 
-Description tracks are used primarily as an assistive technology helper, these tracks will be readby assistive technology devices. 
+Description tracks are used primarily as an assistive technology helper, these tracks will be readby assistive technology devices. The cues can be arbitrarily long as long as they don't contain empty lines (they would signal the beginning of a new cue)
 
+<pre><code>VTT - Description for Sintel trailer
 
-****
+Sintel's Search -- begning of the search
+00:00:01.000 --> 00:00:52.000
+&lt;p&gt;Woman walks up a mountain&lt;/p&lt;
+&lt;p&gt;Fights an unknown man&lt;/p&lt;
+&lt;p&gt;Smoking man (covering full frame) speaks&lt;/p&lt;
+&lt;p&gt;Little dragon flies towards the woman before a larger dragon snatches it and flies away. The woman screams trying to grab the smaller flying creature&lt;/p&lt;</code></pre>
+
 
 ### Metadata Tracks
 
@@ -328,8 +334,7 @@ According to the VTT specification (<http://dev.w3.org/html5/webvtt/#dfn-webvtt-
 ## Building the tracks
 We can build our caption file using the text above as an example, and this is the most common way to caption a video for accessibility.
 
-We can also build multiple caption tracks as well as a variety of other tracks. Most polyfills will support a subset of the full VTT specification, Playr, the polyfill I've selected for these examples, supports both captions and chapter tracks. 
-
+We can also build multiple caption tracks as well as a variety of other tracks. Most polyfills will support a subset of the full VTT specification, Playr, the polyfill I've selected for these examples, supports captions, descriptions and chapter tracks. 
 
 ## Getting the captions to work
 
@@ -509,7 +514,7 @@ video::cue(v.sintel) {
   color: #ff00ff; 
 }</code></pre>
 
-### Addtional Style tags
+##### Addtional Style tags
 
 The following tags require opening and closing tags.
 
@@ -627,7 +632,37 @@ The same example without polyfill support and supporting captions in English and
 &lt;/html&gt;
 </code></pre>
 
-One final note is that you can have multiple tracks supporting multiple languages and different purposes (captions, subtitles and chapters) but not all track types are supported by all polyfills. 
+The final example contains multiple caption tracks, subtitles in Spanish and descriptions for the video. 
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;Sample Captioned Video&lt;/title&gt;
+&lt;/head&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;video 
+  id="myvideo" 
+  controls="controls" 
+  width="640" height="480" 
+  poster="http://media.w3.org/2010/05/sintel/poster.png" 
+&gt;
+&lt;!-- 
+  These are the three sources. This should cover most of our 
+  deployed player base
+--&gt;
+&lt;source src="http://media.w3.org/2010/05/sintel/trailer.mp4" type="video/mp4" /&gt;
+&lt;source src="http://media.w3.org/2010/05/sintel/trailer.webm" type="video/webm" /&gt;
+&lt;source src="http://media.w3.org/2010/05/sintel/trailer.ogv" type="video/ogg" /&gt;  
+&lt;!-- 
+  This is the captions track
+--&gt;
+&lt;track kind="captions" lang="en" srclang="en" label="English" src="sintel-en.vtt" default /&gt;
+&lt;track kind="captions" lang="es" srclang="es" label="Spanish" src="sintel-es.vtt" /&gt;
+&lt;track kind="captions" lang="de" srclang="de" label="Spanish" src="sintel-de.vtt" /&gt;&lt;/video&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
 
 ## Additional Tutorials
 
