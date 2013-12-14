@@ -1,4 +1,3 @@
-vtt-demos
-=========
+# VTT Demos
 
-Demos for Webplatform.org VTT page
+This repository hosts demos and examples of VTT tracks for HTML5 audio and video.  

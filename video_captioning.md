@@ -1,41 +1,7 @@
-<!-- MarkdownTOC -->
-- HTML5 video captioning using VTT
-  - Introducing VTT
-  - Browser support
-  - Polyfills and alternatives
-    - Players and Polyfills
-  - Accessibility and ARIA considerations
-  - Different types of VTT tracks and their structures
-    - Captioning Tracks
-    - Subtitles Tracks
-    - Chapter Tracks
-    - Description Tracks
-    - Metadata Tracks
-  - Building the tracks
-  - Getting the captions to work
-    - Building the tracks
-      - Converting SRT to VTT
-      - Validating A VTT File
-      - Optional Cue Settings
-        - Vertical Alignment
-        - Line Placement
-        - Top Alignment
-        - Cue Box Size
-        - Text Align
-      - Cue Payload Tags
-        - Timestamp Tags (Karaoke Style Text)
-        - Speaker Semantics
-        - Addtional Style tags
-    - Adding the tracks to the video
-  - Additional Tutorials
-<!-- /MarkdownTOC -->
-# HTML5 video captioning using VTT
-
-The biggest frustration I had the last time I worked with HTML5 video was its lack of support for captions and subtitle tracks. The support is still not uniform but at least we can now be better assured that the video will have some sort of caption. 
 
 ## Introducing VTT
 
-WebVTT (Web Video Time Tracks), formerly known as WebSRT, is a W3C community proposal for synchronized video caption playback. It is a time-indexed file format and it is referenced by HTML5 video **and** audio elements.
+WebVTT (Web Video Text Tracks), formerly known as WebSRT, is a W3C community proposal for synchronized video caption playback. It is a time-indexed file format and it is referenced by HTML5 video **and** audio elements.
 
 As with many assistive technologies, it would be a mistake to assume that they are only meant as a way to provide for accessibility accomodations. We can enable captions when the ambient noise is too loud to listen to a recorded presentation, we can use chapters to navigate through a long lecture video just like DVD or Blue Ray movies.
 
@@ -52,7 +18,6 @@ table {
   width: 100%;
   border: 1px solid #000;
 }
-
 th, td {
   text-align: left; 
   vertical-align: middle; 
@@ -84,13 +49,12 @@ th, td {
     </tr>
     <tr>
       <td>Google Chrome</td>
-      <td>Version 18 (is it still behind a flag?)</td>
+      <td>Version 18</td>
       <td>VTT</td>
       <td>
         <ul>
           <li>Documentation hosted at <a href="http://www.html5rocks.com/en/tutorials/track/basics/">HTML5 Rocks</li>
           <li>Based on Webkit's implementation</li>
-          <li>Any planned changes after blink fork?</li>
         </ul>
       </td>
     </tr>
@@ -168,8 +132,7 @@ The code below uses plain JavaScript to test if a browser supports  HTML5 video 
     var pscript = document.createElement('script');
     pscript.setAttribute('src', 'js/playr.js');
     h.append('pscript');
-  }
-</code></pre>
+  }</code></pre>
 
 This is the simplest test for video support; a more elaborate version can include support for specific formats and write the <code>&lt;source&gt;</code> tags only for the supported formats. The example below makes the following assumptions:
 
@@ -200,15 +163,6 @@ This is the simplest test for video support; a more elaborate version can includ
     mp4.setAttribute("source", "myvideo.mp4");
     mp4.setAttribute("type", "'video/mp4; codecs="avc1.42E01E, mp4a.40.2"'");    
   }
-  else if {
-    (v.canPlayType &amp;&amp; v.canPlayType('video/ogg; codecs="theora"').replace(/no/, '')){
-    var ogg = v.appendChild(source);
-    ogg.setAttribute("source", "myvideo.mp4");
-    ogg.setAttribute("type", "video/ogg");
-  } 
-  else {
-    // Provide a flash-based fallback
-  }
 
 </code></pre>
 
@@ -225,9 +179,6 @@ Playr is by no means the only polyfil or the only player that supports VTT. It i
 * [js_videosub polyfill](http://www.storiesinflight.com/js_videosub/)
 * [Captionator polyfill](https://github.com/cgiffard/Captionator)
 
-## Accessibility and ARIA considerations
-
-**To be written once I get more feedback from appropriate parties**
 
 ## Different types of VTT tracks and their structures
 
@@ -259,7 +210,7 @@ that touched the lead to the pages of your manuscript.
 1. WEBVTT must be the first item on the file, on the first line and in a line of its own. It must be followed by a blank line
 2. The name of the cue 
 3. Immediately below the name of the cue come the beginning and end time for the cue expressed in hours:minutes:seconds:milliseconds format. **Hours, Minutes and Seconds must have 2 digits and be padded with zeros if necessary. Miliseconds must have 3 digits and be zero padded if not long enough**
-4. Optional Cue Settings separated from the time by no more than 2 spaces
+4. Optional Cue Settings separated from the time one or more SPACE or TAB characters
 5. The text for the cue
 
 ### Subtitles Tracks
@@ -276,11 +227,11 @@ Subtitles are not expected to convey additional non-verbal cues. Once again, are
 
 > From <http://www.cpcweb.com/faq/>
 
-As far as HTML5 video is concerned the only difference between captions and subtitles are the way the <code>&lt;code&gt;</code> tags are structured:
+Other than the content for each type of track, HTML5 video structures the track element the same way. In the example below, the only difference are the attributes for each tag, in particular the kind attribute for each track. . 
 
 <pre><code>&lt;!-- This is the captions track --&gt;
 &lt;track kind="captions" lang="en" srclang="en" label="English" src="sintel.vtt" /&gt;
-&lt;!-- This is the subtitles track,  for Spanish --&gt;
+&lt;!-- This is the subtitles track for Spanish --&gt;
 &lt;track kind="subtitles" lang="es" srclang="es" label="Espa&ntilde;" src="sintel-es.vtt" /&gt;
 </code></pre>
 
@@ -315,21 +266,15 @@ Description tracks are used primarily as an assistive technology helper, these t
 
 Sintel's Search -- begning of the search
 00:00:01.000 --> 00:00:52.000
-&lt;p&gt;Woman walks up a mountain&lt;/p&lt;
-&lt;p&gt;Fights an unknown man&lt;/p&lt;
-&lt;p&gt;Smoking man (covering full frame) speaks&lt;/p&lt;
-&lt;p&gt;Little dragon flies towards the woman before a larger dragon snatches it and flies away. The woman screams trying to grab the smaller flying creature&lt;/p&lt;</code></pre>
+Woman walks up a mountain
+Fights an unknown man
+Smoking man (covering full frame) speaks
+Little dragon flies towards the woman before a larger dragon snatches it and flies away. The woman screams trying to grab the smaller flying creature</code></pre>
 
 
 ### Metadata Tracks
 
-** Getting more information about Metadata tracks to make sure I'm accurate **
-
-According to the VTT specification (<http://dev.w3.org/html5/webvtt/#dfn-webvtt-metadata-text>):
-
-> WebVTT metadata text consists of any sequence of zero or more characters other than U+000A LINE FEED (LF) characters and U+000D CARRIAGE RETURN (CR) characters, each optionally separated from the next by a WebVTT line terminator. (In other words, any text that does not have two consecutive WebVTT line terminators and does not start or end with a WebVTT line terminator.)
-
-> WebVTT metadata text cues are only useful for scripted applications (using the metadata text track kind).
+Metadata Tracks are used to convey any additional information ()
 
 ## Building the tracks
 We can build our caption file using the text above as an example, and this is the most common way to caption a video for accessibility.
@@ -358,7 +303,6 @@ I was raised to embrace.</code></pre>
 The process is little more than a find-and-replace:
 
 * Add WEBVTT to the first line of the file
-* Replace them with Cue - prefixes.
 * Convert the comma before the millisecond mark in every timestamp to a decimal point.
 * Add styling markup to the subtitle text.
 
@@ -451,7 +395,7 @@ Cues can also be styled and moved around the screen relative to the borders of t
 
 These are additional tracks that will allow you to customize the appearance of your tracks. ** You cannot use payload tags with chapter tracks**
 
-##### Timestamp Tags (Karaoke Style Text)
+##### Timestamp Tags (Karaoke Style and Paint On Caption Text)
 
 Using timestamp tags can build Karaoke Style tracks. You build the track by inserting the correct time stamp where you want the highlighted text to change, subject to the following restrictions:
 
@@ -488,6 +432,8 @@ And a possible CSS rule to style the content looks like this.
   text-shadow: black 0 0 1px;
 }</code></pre>
 
+Timestamp tags can also be used for Paint On captions, which placed independently from each other and don't erase what was already on the screen. They are written one letter at a time and they appear to 'paint on' the screen.
+
 ##### Speaker Semantics
 
 You can use a combination of cue positioning and specific markup on individual cues to further emphazise who is speaking in a given caption or subtitle where appropriate. 
@@ -504,7 +450,7 @@ Searching
 &lt;v.sintel&gt;I'm searching for someone.
 </code></pre>
 
-We can style the speaker semantic classes using CSS. For example we can add a different, something like the example code below:
+We can style the speaker semantic classes using CSS. For example we can add a different color for each speaker, something like the example below:
 
 <pre><code>video::cue(v.gatekeeper) { 
   color:lime;
@@ -518,7 +464,7 @@ video::cue(v.sintel) {
 
 The following tags require opening and closing tags.
 
-**Class tag (&lt;c&gt;&lt;/c&gt;)**
+**Class tag**
 
 Style the contained text using a CSS class.
 
@@ -526,29 +472,29 @@ Style the contained text using a CSS class.
 &lt;c.classname&gt;text&lt;/c&gt;</code></pre>
 
 
-**Italics tag (&lt;i&gt;&lt;/i&gt;)**
+**Italics tag**
 
 Italicize the contained text.
 
 <pre><code>Example 15 - Italics tag
 &lt;i&gt;text&lt;/i&gt;</code></pre>
 
-**Bold tag (&lt;b&gt;&lt;/b&gt;)
+**Bold tag**
 
 Bold the contained text.
 
 <pre><code>Example 16 - Bold tag
 &lt;b&gt;text&lt;/b&gt;
 
-**Underline tag (&lt;u&gt;&lt;/u&gt;)**
+**Underline tag**
 
 Underline the contained text.
 
 <pre><code>Example 17 - Underline tag
 &lt;u&gt;text&lt;/u&gt;</code></pre>
 
-**Ruby tag (&lt;ruby&gt;&lt;/ruby&gt;)**
-**Ruby text tag (&lt;rt&gt;&lt;/rt&gt;)**
+**Ruby tag**
+**Ruby text tag**
 
 Used together to display ruby characters (i.e. small annotative characters above other characters). Ruby annotations are primarily used in languages with logographic alphabets (Japanese, Chinese, Korean) where a single character may represent a complete word and where the meaning of the character may not be familiar to the reader. 
 
@@ -600,7 +546,7 @@ There is one non-standard attribute we will add to the video to  make it work wi
 
 The working example is located at <http://labs.rivendellweb.net/captions/>
 
-The same example without polyfill support and supporting captions in English and Spanish with the English caption being the default. 
+The same example without polyfill support and supporting captions in English and Spanish with the English caption being the default. The default attribute will also display the captions automatically
 
 <pre><code>&lt;!DOCTYPE html&gt;
 &lt;html&gt;
@@ -665,7 +611,7 @@ The final example contains multiple caption tracks, subtitles in Spanish and des
 --&gt;
 &lt;track kind="subtitles" lang="es" srclang="es" label="Subtitulos en Espa&ntilde;ol" src="sintel-es-subtitles.vtt" /&gt;
 &lt;!-- 
-  These are the captions track
+  These are the description tracks
 --&gt;
 &lt;track kind="captions" lang="en" srclang="en" label="English" src="sintel-en.vtt" default /&gt;
 &lt;/body&gt;

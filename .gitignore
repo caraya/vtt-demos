@@ -1,0 +1,4 @@
+# Remove Mac specific crap
+.DS_Store
+
+
