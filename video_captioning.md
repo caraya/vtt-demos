@@ -80,13 +80,14 @@ th, td {
     </tr>
     <tr>
       <td>Firefox</td>
-      <td>Version 24</td>
+      <td>Nightly</td>
       <td>VTT</td>
       <td>
         <ul>
-          <li><strong>Cannot get it to workon the latest Firefox Nightly</strong></li>
-          <li>Enable by going to about:config and changing the value of **media.webvtt.enabled** to true (it's false by default)</li>
+          <li>Tested with version 29.0a1 (12/14/2013)</li>
+          <li>Feature enabled by default</li>
           <li>See the <a href="https://developer.mozilla.org/en-US/docs/HTML/WebVTT">Mozilla Developer Documentation</a> for more information</li>
+          <li>If the size of the video doesn't match the size attributes of the video tag, the video will display on white/gray background</li>
         </ul>
       </td>
     </tr>
@@ -112,6 +113,8 @@ One way to ensure that we only load our polyfill if the browser doesn't support 
 The code below uses plain JavaScript to test if a browser supports  HTML5 video by creating an empty video element and testing for the video's canPlayType property. It will not load the code for a polyfill like the Modernizr example.
 
 <pre><code>var canPlay = false;
+  var h, plink, pscript;
+
   // Create an empty video element
   var v = document.createElement('video');
   // If the video can playType and can play MP4 video
@@ -124,12 +127,12 @@ The code below uses plain JavaScript to test if a browser supports  HTML5 video 
   else {
     // Append Playr CSS and JS to the head of the page to
     // provide a fallback
-    var h = document.getElementsByTagName('head')[0];
-    var plink = document.createElement('link');
+    h = document.getElementsByTagName('head')[0];
+    plink = document.createElement('link');
     plink.setAttribute('href', 'css/playr.css');
     plink.setAttribute('media', 'screen');
     h.appendChild(plink);
-    var pscript = document.createElement('script');
+    pscript = document.createElement('script');
     pscript.setAttribute('src', 'js/playr.js');
     h.append('pscript');
   }</code></pre>
@@ -162,11 +165,9 @@ This is the simplest test for video support; a more elaborate version can includ
     var mp4 = v.appendChild(source);
     mp4.setAttribute("source", "myvideo.mp4");
     mp4.setAttribute("type", "'video/mp4; codecs="avc1.42E01E, mp4a.40.2"'");    
-  }
+  }</code></pre>
 
-</code></pre>
-
-Also note that we're testing for specific audio and video codec combinations. WebM and Ogg support a single combination of video and audio codecs but MP4 supports multiple profiles, not all of which are supported in HTML5 video. See <http://mpeg.chiariglione.org/faq/what-are-different-profiles-supported-mpeg-4-video> for an introduction to the different profiles supported by MPEG4. 
+Also note that we're testing for specific audio and video codec combinations. WebM supports a single combination of video and audio codecs but MP4 supports multiple profiles, not all of which are supported in HTML5 video. See <http://mpeg.chiariglione.org/faq/what-are-different-profiles-supported-mpeg-4-video> for an introduction to the different profiles supported by MPEG4. 
 
 ### Players and Polyfills
 
@@ -178,7 +179,7 @@ Playr is by no means the only polyfil or the only player that supports VTT. It i
 * [LeanBack player](http://leanbackplayer.com/)
 * [js_videosub polyfill](http://www.storiesinflight.com/js_videosub/)
 * [Captionator polyfill](https://github.com/cgiffard/Captionator)
-
+* [vtt.js](https://github.com/mozilla/vtt.js) by the Mozilla Foundation
 
 ## Different types of VTT tracks and their structures
 
@@ -227,12 +228,12 @@ Subtitles are not expected to convey additional non-verbal cues. Once again, are
 
 > From <http://www.cpcweb.com/faq/>
 
-Other than the content for each type of track, HTML5 video structures the track element the same way. In the example below, the only difference are the attributes for each tag, in particular the kind attribute for each track. . 
+Other than the content for each type of track, HTML5 video structures the track element the same way. In the example below, the only difference are the <code>kind</code> attributes for each track. 
 
 <pre><code>&lt;!-- This is the captions track --&gt;
 &lt;track kind="captions" lang="en" srclang="en" label="English" src="sintel.vtt" /&gt;
 &lt;!-- This is the subtitles track for Spanish --&gt;
-&lt;track kind="subtitles" lang="es" srclang="es" label="Espa&ntilde;" src="sintel-es.vtt" /&gt;
+&lt;track kind="subtitles" lang="es" srclang="es" label="Espa&ntilde;ol" src="sintel-es.vtt" /&gt;
 </code></pre>
 
 ### Chapter Tracks
@@ -274,7 +275,42 @@ Little dragon flies towards the woman before a larger dragon snatches it and fli
 
 ### Metadata Tracks
 
-Metadata Tracks are used to convey any additional information ()
+Metadata Tracks are used to convey any additional information (such as base64 encoded images, JSON, additional text or any additional text-based file format) the developer needs to include in the page based on time indexes. A web app can listen for cue events, extract the text of each cue as it fires, parse the data and then use the results to make DOM changes (or perform other JavaScript or CSS tasks) synchronised with media playback.
+
+<pre><code>WEBVTT - Example metadata track containing JSON payload
+
+multiCell
+00:01:15.200 --> 00:02:18.800
+{
+"title": "Multi-celled organisms",
+"description": "Multi-celled organisms have different types of cells that perform specialised functions.
+  Most life that can be seen with the naked eye is multi-cellular. These organisms are though to
+  have evolved around 1 billion years ago with plants, animals and fungi having independent
+  evolutionary paths.",
+"src": "multiCell.jpg",
+"href": "http://en.wikipedia.org/wiki/Multicellular"
+}
+
+insects
+00:02:18.800 --> 00:03:01.600
+{
+"title": "Insects",
+"description": "Insects are the most diverse group of animals on the planet with estimates for the total
+  number of current species range from two million to 50 million. The first insects appeared around
+  400 million years ago, identifiable by a hard exoskeleton, three-part body, six legs, compound eyes
+  and antennae.",
+"src": "insects.jpg",
+"href": "http://en.wikipedia.org/wiki/Insects"
+}</code></pre>
+
+We can then use Javascript to parse the track content and do something with the track's content. 
+
+<pre><code>textTrack.oncuechange = function (){
+  // "this" is a textTrack
+  var cue = this.activeCues[0]; // assuming there is only one active cue
+  var obj = JSON.parse(cue.text);
+  // do something
+}</code></pre>
 
 ## Building the tracks
 We can build our caption file using the text above as an example, and this is the most common way to caption a video for accessibility.
@@ -319,7 +355,7 @@ Save the file with a .vtt extension and link to it from a <code>&lt;track&gt;</c
 
 #### Validating A VTT File
 
-** More to be written once I get to play with http://quuz.org/webvtt/ some more*
+![VTT Validator](images/vtt-validator.png "VTT validator screenshot")
 
 #### Optional Cue Settings
 
@@ -544,7 +580,7 @@ There is one non-standard attribute we will add to the video to  make it work wi
 &lt;/html&gt;
 </code></pre>
 
-The working example is located at <http://labs.rivendellweb.net/captions/>
+The working example is located at <http://labs.rivendellweb.net/vtt-demo/basic.html> and an example without a polyfill (meant to test native browser support) is located at <http://labs.rivendellweb.net/vtt-demo/basic-plain.html>
 
 The same example without polyfill support and supporting captions in English and Spanish with the English caption being the default. The default attribute will also display the captions automatically
 
