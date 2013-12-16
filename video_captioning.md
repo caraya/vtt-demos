@@ -44,8 +44,11 @@ th, td {
         <ul>
           <li><a href="http://ie.microsoft.com/testdrive/Graphics/VideoCaptions/">Test Page</a></li>
           <li><a href="http://html5labs.interoperabilitybridges.com/prototypes/video-captioning/video-captioning/info">Documentation</a></li>
-        </td>
+          <li><a href="http://ie.microsoft.com/testdrive/Graphics/CaptionMaker/">HTML5 Video Caption Maker</a></li>
+          <li><a href='http://msdn.microsoft.com/library/ie/bg123962.aspx'>Timed Text Track Information</a></li>
+          <li><a href='http://samples.msdn.microsoft.com/iedevcenter/TextTrack/default.html'>Timed Text Tracks</a> examples</li>
         </ul>
+      </td>
     </tr>
     <tr>
       <td>Google Chrome</td>
@@ -53,7 +56,7 @@ th, td {
       <td>VTT</td>
       <td>
         <ul>
-          <li>Documentation hosted at <a href="http://www.html5rocks.com/en/tutorials/track/basics/">HTML5 Rocks</li>
+          <li>Documentation hosted at <a href="http://www.html5rocks.com/en/tutorials/track/basics/">HTML5 Rocks</a></li>
           <li>Based on Webkit's implementation</li>
         </ul>
       </td>
@@ -284,9 +287,7 @@ multiCell
 {
 "title": "Multi-celled organisms",
 "description": "Multi-celled organisms have different types of cells that perform specialised functions.
-  Most life that can be seen with the naked eye is multi-cellular. These organisms are though to
-  have evolved around 1 billion years ago with plants, animals and fungi having independent
-  evolutionary paths.",
+  Most life that can be seen with the naked eye is multi-cellular. These organisms are though to have evolved around 1 billion years ago with plants, animals and fungi having independent evolutionary paths.",
 "src": "multiCell.jpg",
 "href": "http://en.wikipedia.org/wiki/Multicellular"
 }
@@ -339,8 +340,8 @@ I was raised to embrace.</code></pre>
 The process is little more than a find-and-replace:
 
 * Add WEBVTT to the first line of the file
-* Convert the comma before the millisecond mark in every timestamp to a decimal point.
-* Add styling markup to the subtitle text.
+* Convert the comma before the millisecond mark in every timestamp to a decimal point
+* Add styling markup to the subtitle text if needed
 
 The resulting VTT file will look like this: 
 
@@ -351,12 +352,20 @@ Life
 Life on the road is something
 I was <i>raised</i> to embrace.</code></pre>
 
-Save the file with a .vtt extension and link to it from a <code>&lt;track&gt;</code> element in your video tag as explained below.
+Save the file with a .vtt extension and link to it from a <code>&lt;track&gt;</code> element in your video.
 
 #### Validating A VTT File
 
+It is not hard to make mistakes when creating a VTT track fille. Fortunately there is an [online validator](http://quuz.org/webvtt/) to help with authoring.
+
 ![VTT Validator](images/vtt-validator.png "VTT validator screenshot")
 
+It is essentially a two step process:
+
+- Paste the text of your VTT file
+- Select the type of track you're working on
+
+The results will automatically display 
 #### Optional Cue Settings
 
 Cues can also be styled and moved around the screen relative to the borders of the video. The table below summarizes the settings avalable for cues. 
@@ -520,7 +529,7 @@ Italicize the contained text.
 Bold the contained text.
 
 <pre><code>Example 16 - Bold tag
-&lt;b&gt;text&lt;/b&gt;
+&lt;b&gt;text&lt;/b&gt;</code></pre>
 
 **Underline tag**
 
