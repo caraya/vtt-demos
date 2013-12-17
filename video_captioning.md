@@ -56,7 +56,7 @@ th, td {
       <td>VTT</td>
       <td>
         <ul>
-          <li>Documentation hosted at <a href="http://www.html5rocks.com/en/tutorials/track/basics/">HTML5 Rocks</a></li>
+          <li>Basic tutorial hosted at <a href="http://www.html5rocks.com/en/tutorials/track/basics/">HTML5 Rocks</a></li>
           <li>Based on Webkit's implementation</li>
         </ul>
       </td>
@@ -350,7 +350,7 @@ The resulting VTT file will look like this:
 Life
 01:21.700 --> 01:24.675
 Life on the road is something
-I was <i>raised</i> to embrace.</code></pre>
+I was &lt;i&gt;raised&lt;/i&gt; to embrace.</code></pre>
 
 Save the file with a .vtt extension and link to it from a <code>&lt;track&gt;</code> element in your video.
 
