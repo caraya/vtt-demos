@@ -662,7 +662,58 @@ The final example contains multiple caption tracks, subtitles in Spanish and des
 &lt;/body&gt;
 &lt;/html&gt;</code></pre>
 
-## Additional Tutorials
+## Text tracks and audio
+
+Text tracks are not limited to working with just video. They work just the same with audio. The example below (taken from <http://mattcrouch.net/experiments/music-sync/>) provides synchronized captions to an audio track. 
+
+Using jQuery, an extract of the audio for the Sintel video and the same captions that we used for the video examples, we change the cues programatically using the video API to display the cues at the matching time. 
+
+As you can see, description tracks would be particularly useful in this case as they would provide a more complete context to the audio. 
+
+<pre><code>jQuery(document).ready(function() {
+    // Step below is optional. I don't like taking
+    // the option from the user and autoplay the video
+    $('audio').trigger("play"); 
+    var audio = document.querySelector("audio");
+    // log the name of the track we're working with
+    console.log(audio.textTracks[0]);
+
+    audio.textTracks[0].oncuechange = function (){
+      $("#output").html(""); // Clear the content of our output region
+        if(this.activeCues !== null) {
+          for(var i=0;i<this.activeCues.length;i++) {
+            if(this.activeCues[i] !== undefined) {
+              $("#output").append(this.activeCues[i].text+"<br>");
+            }
+          }
+        }
+      }
+    });</code></pre> 
+
+
+** Are audio sprites appropriate for this doc? **
+
+<!--
+Another, somewhat way to work with audio using VTT and the web API is to create
+
+<pre><code>var sfx = new Audio('sfx.wav');
+var track = sfx.addTextTrack('metadata'); 
+
+// Add cues for sounds we care about.
+// TextTrackCue format:
+// startTime, endTime, text
+// track.addCue(new TextTrackCue(12.783, 13.612, 'dog bark')); 
+// track.addCue(new TextTrackCue(13.612, 15.091, 'kitten mew'));
+
+// function playSound(id) {
+//  sfx.currentTime = track.getCueById(id).startTime;
+//  sfx.play();
+// }
+
+playSound('dog bark');
+playSound('kitten mew');</code></pre>
+-->
+## Additional Tutorials And Tools
 
 * <http://dev.opera.com/articles/view/an-introduction-to-webvtt-and-track/>
 * <https://developer.mozilla.org/en-US/docs/HTML/WebVTT>
@@ -670,4 +721,8 @@ The final example contains multiple caption tracks, subtitles in Spanish and des
 * <http://www.delphiki.com/webvtt/>
 * <http://demosthenes.info/blog/580/Make-Online-Video-Accessible-And-Searchable-With-WebVTT>
 * <http://www.accessiq.org/news/features/2013/03/webvtt-and-captioning-on-the-web>
-
+* [Test Drive Video Captions](http://ie.microsoft.com/testdrive/Graphics/VideoCaptions/)
+* <http://html5labs.interoperabilitybridges.com/prototypes/video-captioning/video-captioning/info>
+* [Microsoft Caption Maker](http://ie.microsoft.com/testdrive/Graphics/CaptionMaker/)
+* [Timed Text Track Information](http://msdn.microsoft.com/library/ie/bg123962.aspx)
+* [Timed Text Tracks examples](http://samples.msdn.microsoft.com/iedevcenter/TextTrack/default.html)

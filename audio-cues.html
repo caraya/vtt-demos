@@ -1,0 +1,64 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>HTML5 Audio Time Sync</title>
+  <!--[if lt IE 9]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+  <script>
+		jQuery(document).ready(function() {
+			// Step below is optional. I don't like taking
+			// the option from the user and autoplay the video
+			$('audio').trigger("play"); 
+			
+				var audio = document.querySelector("audio");
+				console.log(audio.textTracks[0]);
+				
+				audio.textTracks[0].oncuechange = function (){
+					$("#output").html("");
+				 	if(this.activeCues !== null) {
+			 			for(var i=0;i<this.activeCues.length;i++) {
+				 			if(this.activeCues[i] !== undefined) {
+				 				$("#output").append(this.activeCues[i].text+"<br>");
+				 			}
+			 			}
+				 	}
+				}
+		});
+	</script>
+<style type="text/css">
+  	#player {
+		position:absolute;
+  		bottom:0;
+  		width:100%;
+  	}
+
+  	audio {
+  		width:50%;
+  		margin:0 25%;
+  	}
+
+  	#output {
+  		width: 100%;
+  		text-align: center;
+  		font-family: Helvetica, Arial, sans-serif;
+  		text-transform: uppercase;
+  		font-weight: bold;
+  		font-size:3em;
+  	}
+  </style>
+</head>
+<body>
+	<div id="player">
+		<audio autoplay controls>
+			<source src="audio/trailer.mp3" type="audio/mpeg">
+			<track src="vtt/sintel.vtt" label="English subtitles" kind="subtitles" srclang="en" default></track>
+			Your browser does not support the audio element.
+		</audio>
+	</div>
+	<div id="output"></div>
+	</body>
+</html>
