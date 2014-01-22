@@ -411,13 +411,19 @@ Cues can also be styled and moved around the screen relative to the borders of t
 
 > Name: align
 
-> Values start | middle | end
+> Values: start | middle | end
 
 > What it's used for: Specifies the alignment of the text within the cue. The keywords are relative to the text direction and are the same alignment keywords used in SVG
 
-> Example
+> The alignment values are similar to those used in SVG. For users of CSS that uses a different terminology, the equivalency is:
+
+> * Start alignment: The cue box's left side (for horizontal cues) or top side (otherwise) is aligned at the text position.
+> * Middle alignment:  The cue box is centered at the text position.
+> * End alignment: The cue box's right side (for horizontal cues) or bottom side (otherwise) is aligned at the text position.
 
 **Note: if no cue settings are set, the positioning default to the middle, at the bottom of the frame.**
+
+> Example
 
 
 ##### Cue positioning

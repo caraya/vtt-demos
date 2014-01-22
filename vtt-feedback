@@ -1,0 +1,92 @@
+Let me add to the thanks for doing this! It is a lot of work, and you've pulled together lots of great information.
+
+If these comments aren't useful, feel free to ignore. :-)
+
+1) Why is CSS styling showing up in the document in the Browser support section:
+
+table { width: 100%; border: 1px solid #000; } th, td { text-align: left; vertical-align: middle; border: 1px solid #000; }
+
+Carlos: It has been removed. It was an artifact of the authoring process.
+
+
+2) "captions provide alternative text content for people with visual dissabilities"
+
+I think you mean that captions provide alternative text content for people with auditory disabilities, that is, deaf and hard of hearing. They don't help people with visual disabilities (e.g. the blind).
+
+Carlos: Changed.
+
+
+3) "WEBVTT must be the first item on the file, on the first line and in a line of its own. It must be followed by a blank line."
+
+Actually, there can be metadata after the WEBVTT line and the first blank line. For example, this is where Region definitions go. (I suspect that polyfill doesn't support regions...).
+
+I'm not sure how much progress has been made in standardizing metadata, but Kind and Language can be used to record those attributes inside the WebVTT file (instead of just in the track statement).
+
+This early in the tutorial, you probably don't want to clutter up the description with all of this, but it would be good to rework this sentence so that it doesn't preclude metadata. Maybe "Optionally there may be lines of metadata. This section must be followed by a blank line."
+
+Carlos: I couldn't find many references about metadata as a child of WEBVTT.  I incorporated the change but would want more feedback about metadata before expanding this further
+
+4) Should you indicate that the name of the cue is optional? Most cues won't have a name.
+
+Carlos: Done
+
+5) Missing word? "Once again, are only meant" -> "Once again, subtitles are only meant"
+
+Carlos: Done
+
+6) "content being played" -> "words being spoken"
+
+Carlos: Done
+
+7) I'm a little confused by the discussion of SDH. In particular, I'm not sure why it follows this definition with "for various reasons, closed captions are usually the preferred method...". SDH sounds like a kind of closed caption, just not in the language of the audio track. For a deaf person who doesn't speak the language of the video, a SDH is much preferred to regular subtitles. The sentence about closed captions makes it sound like you should only make a video accessible in the language of the video.
+
+Carlos: Eliminated the SDH section. I wasn't 100% sure that it was relevant and if it's confusing I think it's betterif I remove it.
+
+8) For people who aren't familiar with the technology, it may help to say that description tracks are an aid to the blind (or anyone else who cannot see the video for any reason). Lots of people reading this document may not understand what assistive technology is.
+
+9) typo:"readby" -> "read by" , "begning" -> "beginning"
+
+Carlos: Typos fixed. Thanks for the catch
+
+
+10) "There are no programs that natively support VTT as a captioning program."
+
+Do you mean there are no caption editors that natively support VTT? I'm confused by your use of "program" in this paragraph.
+
+Carlos: changed it to: There are no programs that support VTT as a native captioning format
+
+11) "Add styling markup to the subtitle text if needed"
+
+It would be nice if this listed the kinds of styling mark-up support by WebVTT captions (<i>, <u>, <b>, <v>, <lang>, <ruby>, and arbitrary CSS classes using the <c.XXX> notation). Otherwise people may try to use other types of style mark-up. I see that you describe these below in section "Cue Payload Tags". Maybe it is sufficient just to tell people they will be described in that section.
+
+You may also want to call out the characters that must be represented by html entities (&amp; &lt; &gt; &lrm; &rlm; &nbsp; )
+
+12) Line placement vs Top alignment
+
+I think it will be confusing to people (or they may miss it altogether) that these two sections are describing the same cue setting, i.e., line.
+
+Carlos: I combined the two entries into one. I'm not 100% sure if it's less confusing this way
+
+13) I think you are missing the heading for Position.
+
+Carlos: Fixed
+
+14) There are lines that say "Example" in several of these cue settings, but no example. Is that intended. Do you want some help generating some examples?
+
+Carlos: Yes, Please!
+
+15) What point on the cue box the Position refers to depends on the alignment. For instance, when using align:middle, position refers to the location of the middle of the cue. (Note that this is the default alignment!) Using align:start corresponds to what you are currently describing.
+
+16) A change (that maybe polyfill doesn't support yet?) is that you can follow the position value with an argument that specifies which point should be at that position (start, middle, end, left, or right). This can be less confusing than understanding the interaction of position and align. This extra alignment value can also be provided for line settings that are percentage values.
+
+Carlos: Can you give me an example for both 15 and 16. I'm not sure I understand what you mean with these two
+
+17) In discussing Timestamp Tags, I think it is just text, not highlighted text. And the timestamp is when the text will appear. I think you should introduce that concept first, and then explain how you can use css past and future to control the styling as the text is painted.
+
+Carlos:  I've fixed the wording to eliminate the confusion that you mentioned above
+
+18) "Ruby tag Ruby text tag" - is this a typo? It seems like you should use one or the other as the section title.
+
+Carlos: I put a / between the tags. I've refered to both of them in the text below
+
+Whew - I think that is all I have for now. Let me know if you have questions about what I wrote, or want help with how to make the edits.
