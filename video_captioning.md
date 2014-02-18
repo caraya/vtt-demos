@@ -181,6 +181,7 @@ Playr is by no means the only polyfil or the only player that supports VTT. It i
 * [js_videosub polyfill](http://www.storiesinflight.com/js_videosub/)
 * [Captionator polyfill](https://github.com/cgiffard/Captionator)
 * [vtt.js](https://github.com/mozilla/vtt.js) by the Mozilla Foundation
+* [Some Techie media player](http://www.sometechie.com/media-player/)
 
 ## Different types of VTT tracks and their structures
 
@@ -404,8 +405,6 @@ Cues can also be styled and moved around the screen relative to the borders of t
 
 > What it's used for: Indicates the size of the cue box. The value is given as a percentage of the width of the frame
 
-> Example
-
 
 ##### Text Align
 
@@ -423,8 +422,6 @@ Cues can also be styled and moved around the screen relative to the borders of t
 
 **Note: if no cue settings are set, the positioning default to the middle, at the bottom of the frame.**
 
-> Example
-
 
 ##### Cue positioning
 
@@ -439,7 +436,6 @@ Cues can also be styled and moved around the screen relative to the borders of t
 > * For middle aligned cues: 50%.
 > * For right aligned or end aligned cues: 100%.
 
-> Example
 
 > Note: Since the default value of the text track cue text alignment is middle, if there is no text track cue text alignment setting for a cue, the text track cue text position defaults to 50%.
 
