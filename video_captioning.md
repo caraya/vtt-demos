@@ -1,15 +1,3 @@
-<style>
-  table {
-  width: 100%;
-  border: 1px solid #000;
-}
-th, td {
-  text-align: left;
-  vertical-align: middle;
-  border: 1px solid #000;
-}
-</style>
-
 ## Introducing VTT
 
 WebVTT (Web Video Text Tracks), formerly known as WebSRT, is a W3C community proposal for synchronized video caption playback. It is a time-indexed file format and it is referenced by HTML5 video **and** audio elements.
